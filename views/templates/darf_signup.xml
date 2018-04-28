@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="darflogin_signup" inherit_id="auth_signup.signup">
+	<xpath expr="//input[@name='token']" position="after">
+		<input id="token_address" type="hidden" name="token_address" t-att-value="token_address"/>
+		<input id="abi" type="hidden" name="abi" t-att-value="abi" />
+		<input id="token_amount" type="hidden" name="token_amount" />
+	</xpath>
+	<xpath expr="//form[1]" position="after" >
+	<script>
+	$(document).ready(function(value) {
+	  var abi = $('#abi').val()
+	  var web3 = window.web3;
+	  var TokenAddress = $('#token_address').val();
+	  var abi_array = $.parseJSON(abi);
+      var tokenContract = web3.eth.contract(abi_array).at(TokenAddress);
+      var address = web3.eth.accounts[0];
+      var tokenbalance = 0;
+      try {
+      var token = tokenContract.balanceOf(address,function(error, result){
+        if(!error) {
+            console.log(JSON.stringify(result));
+            tokenbalance = JSON.stringify(result);
+            tokenbalance = tokenbalance.replace(/['"]+/g, '');
+            balance = web3.toBigNumber(tokenbalance);
+            result_balance = web3.fromWei(balance);
+            $("#token_amount").val(result_balance);
+            }
+        else
+          console.error(error);
+     }); }
+     catch (err) {
+
+        alert("Start metamask");
+
+    } 
+	});
+	</script>
+	</xpath>
+</template>
+</odoo>

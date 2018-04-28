@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+	<record model="ir.ui.view" id="darflogin_form_view">
+	  <field name="name">res.company</field>
+	  <field name="model">res.company</field>
+	  <field name="inherit_id" ref="base.view_company_form"/>
+	  <field name="arch" type="xml">
+	      <xpath expr="//page[1]" position="after">
+		      <page string="Sing up Setting with Token">
+			     <group>
+		         <field name="token_address" />
+		         <field name="min_tokens_amount" />
+		         <field name="token_interface" />
+		        </group>
+	         </page>
+	      </xpath>
+	  </field>
+	</record>
+</data>
+</odoo>
